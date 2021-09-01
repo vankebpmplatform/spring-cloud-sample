@@ -1,0 +1,60 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- main
+
+# pool:
+#   vmImage: ubuntu-latest
+
+pool:
+  name: Default
+  demands: agent.name -equals yangsp05-wykjn
+  # - env -equals $(buildEnv)
+  # - agent.name -equals vanke-k2az-devops
+
+steps:
+
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '11'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'LocalDirectory'
+    jdkFile: '/mnt/c/users/yangsp05/downloads/openlogic-openjdk-11.0.11+9-linux-x64.tar.gz'
+    jdkDestinationDirectory: '/home/wilson/azureagent'
+    cleanDestinationDirectory: false
+    createExtractDirectory: false
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'vankebpm'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'vankebpm_spring-cloud-sample'
+    cliProjectName: 'spring-cloud-sample'
+    cliSources: '.'
+
+# - task: Maven@3
+#   inputs:
+#     mavenPomFile: 'pom.xml'
+#     publishJUnitResults: true
+#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#     javaHomeOption: 'JDKVersion'
+#     jdkVersionOption: '1.8'
+#     mavenVersionOption: 'Default'
+#     mavenOptions: '-Xmx3072m'
+#     mavenAuthenticateFeed: false
+#     effectivePomSkip: false
+#     sonarQubeRunAnalysis: true
+#     sqMavenPluginVersionChoice: 'latest'
+#     checkStyleRunAnalysis: true
+#     pmdRunAnalysis: true
+#     findBugsRunAnalysis: true
+- task: SonarCloudAnalyze@1
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
+
