@@ -11,7 +11,7 @@ trigger:
 
 pool:
   name: Default
-  # demands: agent.name -equals yangsp05-wykjn
+  demands: agent.name -equals yangsp05-wykjn
   # - env -equals $(buildEnv)
   # - agent.name -equals vanke-k2az-devops
 
@@ -21,7 +21,10 @@ steps:
   inputs:
     versionSpec: '8'
     jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'PreInstalled'
+    jdkSourceOption: 'LocalDirectory'
+    jdkFile: '/mnt/c/users/yangsp05/downloads/openlogic-openjdk-8u292-b10-linux-x64.tar.gz'
+    jdkDestinationDirectory: '/home/wilson/azureagent'
+    cleanDestinationDirectory: false
 
 - task: SonarCloudPrepare@1
   inputs:
