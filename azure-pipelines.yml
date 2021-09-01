@@ -11,7 +11,7 @@ trigger:
 
 pool:
   name: Default
-  demands: agent.name -equals yangsp05-wykjn
+  # demands: agent.name -equals yangsp05-wykjn
   # - env -equals $(buildEnv)
   # - agent.name -equals vanke-k2az-devops
 
@@ -21,7 +21,11 @@ steps:
   inputs:
     SonarCloud: 'SonarCloud'
     organization: 'vankebpm'
-    scannerMode: 'Other'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'vankebpm_spring-cloud-sample'
+    cliProjectName: 'spring-cloud-sample'
+    cliSources: '.'
 
 # - task: Maven@3
 #   inputs:
