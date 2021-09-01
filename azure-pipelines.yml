@@ -11,9 +11,9 @@ trigger:
 
 pool:
   name: Default
-  demands:
+  demands: agent.name -equals vanke-k2az-devops
   # - env -equals $(buildEnv)
-  - agent.name -equals vanke-k2az-devops
+  # - agent.name -equals vanke-k2az-devops
 
 steps:
 
