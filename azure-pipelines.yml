@@ -6,8 +6,14 @@
 trigger:
 - main
 
+# pool:
+#   vmImage: ubuntu-latest
+
 pool:
-  vmImage: ubuntu-latest
+  name: Default
+  demands:
+  # - env -equals $(buildEnv)
+  - agent.name -equals vanke-k2az-devops
 
 steps:
 
@@ -17,23 +23,22 @@ steps:
     organization: 'vankebpm'
     scannerMode: 'Other'
 
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    mavenVersionOption: 'Default'
-    mavenOptions: '-Xmx3072m'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: true
-    sqMavenPluginVersionChoice: 'latest'
-    checkStyleRunAnalysis: true
-    pmdRunAnalysis: true
-    findBugsRunAnalysis: true
-
+# - task: Maven@3
+#   inputs:
+#     mavenPomFile: 'pom.xml'
+#     publishJUnitResults: true
+#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#     javaHomeOption: 'JDKVersion'
+#     jdkVersionOption: '1.8'
+#     mavenVersionOption: 'Default'
+#     mavenOptions: '-Xmx3072m'
+#     mavenAuthenticateFeed: false
+#     effectivePomSkip: false
+#     sonarQubeRunAnalysis: true
+#     sqMavenPluginVersionChoice: 'latest'
+#     checkStyleRunAnalysis: true
+#     pmdRunAnalysis: true
+#     findBugsRunAnalysis: true
 - task: SonarCloudAnalyze@1
 - task: SonarCloudPublish@1
   inputs:
